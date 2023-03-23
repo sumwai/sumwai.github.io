@@ -1,0 +1,27 @@
+name: Build and Deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup Hugo
+      uses: peaceiris/actions-hugo@v2.4.11
+      with:
+        hugo-version: 'latest'
+
+    - name: Build
+      run: hugo
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        publish-dir: ./public
+        publish_branch: gh-pages
+        personal_token: ${{ secrets.ACCESS_TOKEN }}
